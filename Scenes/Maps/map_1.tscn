@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://c6ebwreg8tpik" path="res://Assets/Enviroment/Props/treeGreen_large.png" id="3_m6jp7"]
 [ext_resource type="Texture2D" uid="uid://cr7h85jbchjsl" path="res://Assets/Enviroment/Props/crateMetal.png" id="4_cphd2"]
 [ext_resource type="Texture2D" uid="uid://dn506cwc23u1i" path="res://Assets/Enviroment/Props/crateWood.png" id="5_1efcw"]
+[ext_resource type="Texture2D" uid="uid://d07l4jq8jjhna" path="res://Assets/Enviroment/Tilesets/Obstructed.png" id="6_m6jp7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wlapn"]
 texture = ExtResource("1_iulhw")
@@ -164,6 +165,11 @@ texture = ExtResource("5_1efcw")
 texture_region_size = Vector2i(28, 28)
 0:0/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cphd2"]
+texture = ExtResource("6_m6jp7")
+texture_region_size = Vector2i(64, 64)
+1:0/0 = 0
+
 [sub_resource type="TileSet" id="TileSet_grv83"]
 tile_size = Vector2i(64, 64)
 terrain_set_0/mode = 0
@@ -174,6 +180,7 @@ sources/1 = SubResource("TileSetAtlasSource_04oj5")
 sources/2 = SubResource("TileSetAtlasSource_bawlw")
 sources/3 = SubResource("TileSetAtlasSource_dxmm1")
 sources/4 = SubResource("TileSetAtlasSource_436e4")
+sources/5 = SubResource("TileSetAtlasSource_cphd2")
 
 [node name="Map1" type="Node2D" unique_id=1085433264]
 
