@@ -5,9 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://c6ebwreg8tpik" path="res://Assets/Enviroment/Props/treeGreen_large.png" id="3_m6jp7"]
 [ext_resource type="Texture2D" uid="uid://cr7h85jbchjsl" path="res://Assets/Enviroment/Props/crateMetal.png" id="4_cphd2"]
 [ext_resource type="Texture2D" uid="uid://dn506cwc23u1i" path="res://Assets/Enviroment/Props/crateWood.png" id="5_1efcw"]
-[ext_resource type="PackedScene" uid="uid://brx4y2lbkol3e" path="res://Scenes/Turrets/gun_t_1.tscn" id="6_1efcw"]
-[ext_resource type="PackedScene" uid="uid://bqxc1r6makq3r" path="res://Scenes/Turrets/gun_t_2.tscn" id="7_04oj5"]
-[ext_resource type="PackedScene" uid="uid://bwevt7vbotp3c" path="res://Scenes/Turrets/missile_t_1.tscn" id="8_bawlw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wlapn"]
 texture = ExtResource("1_iulhw")
@@ -189,12 +186,3 @@ tile_map_data = PackedByteArray("AAD//wQAAAACAAAAAAAAAAQAAAACAAAAAAABAAQAAAACAAA
 tile_set = SubResource("TileSet_grv83")
 
 [node name="Turrets" type="Node2D" parent="." unique_id=572407255]
-
-[node name="GunT1" parent="Turrets" unique_id=1948045617 instance=ExtResource("6_1efcw")]
-position = Vector2(439, 34)
-
-[node name="GunT2" parent="Turrets" unique_id=990274457 instance=ExtResource("7_04oj5")]
-position = Vector2(162, 222)
-
-[node name="MissileT1" parent="Turrets" unique_id=1665514718 instance=ExtResource("8_bawlw")]
-position = Vector2(510, 294)

@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://padpl4h5ka60" path="res://Assets/UI/Art/BackGround.png" id="1_ctc6w"]
 [ext_resource type="Texture2D" uid="uid://bces8vv0kw3s6" path="res://Assets/UI/Buttons/button_rectangle_gradient.png" id="2_ctc6w"]
-[ext_resource type="Texture2D" uid="uid://dodyar6u176t4" path="res://Assets/UI/Buttons/button_rectangle_depth_gradient.png" id="3_ctc6w"]
+[ext_resource type="Texture2D" uid="uid://c53edbwupe2bu" path="res://Assets/UI/Buttons/button_rectangle_flat.png" id="2_iyrik"]
 [ext_resource type="Theme" uid="uid://buxpjf7wct7mx" path="res://Resources/Fonts/CoolTheme.tres" id="4_15g01"]
 [ext_resource type="FontFile" uid="uid://blt8bo0wtec3m" path="res://Resources/Fonts/Kenney Future Narrow.ttf" id="4_iyrik"]
 
@@ -48,7 +48,7 @@ custom_minimum_size = Vector2(350, 75)
 layout_mode = 2
 size_flags_horizontal = 4
 texture_normal = ExtResource("2_ctc6w")
-texture_pressed = ExtResource("3_ctc6w")
+texture_pressed = ExtResource("2_iyrik")
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="MC/VBC/NewGame" unique_id=1724691390]
@@ -75,7 +75,7 @@ custom_minimum_size = Vector2(350, 75)
 layout_mode = 2
 size_flags_horizontal = 4
 texture_normal = ExtResource("2_ctc6w")
-texture_pressed = ExtResource("3_ctc6w")
+texture_pressed = ExtResource("2_iyrik")
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="MC/VBC/Settings" unique_id=1608610770]
@@ -102,7 +102,7 @@ custom_minimum_size = Vector2(350, 75)
 layout_mode = 2
 size_flags_horizontal = 4
 texture_normal = ExtResource("2_ctc6w")
-texture_pressed = ExtResource("3_ctc6w")
+texture_pressed = ExtResource("2_iyrik")
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="MC/VBC/About" unique_id=1278049845]
@@ -129,7 +129,7 @@ custom_minimum_size = Vector2(350, 75)
 layout_mode = 2
 size_flags_horizontal = 4
 texture_normal = ExtResource("2_ctc6w")
-texture_pressed = ExtResource("3_ctc6w")
+texture_pressed = ExtResource("2_iyrik")
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="MC/VBC/Quit" unique_id=13930157]

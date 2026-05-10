@@ -1,15 +1,19 @@
 [gd_scene format=3 uid="uid://dor0save4af0i"]
 
 [ext_resource type="PackedScene" uid="uid://bduher5tfl7p4" path="res://Scenes/Maps/map_1.tscn" id="1_akvmk"]
+[ext_resource type="Script" uid="uid://bxdsuy6ts2d2p" path="res://Scenes/MainScenes/game_scene.gd" id="1_g2kuy"]
 [ext_resource type="Texture2D" uid="uid://chxkun6kmx1nc" path="res://Assets/UI/Buttons/button_square_flat.png" id="2_3x1ga"]
 [ext_resource type="Texture2D" uid="uid://bl1d72ee4tpjw" path="res://Assets/Towers/towerDefense_tile249.png" id="3_2u2le"]
+[ext_resource type="Script" uid="uid://b4jjg2fcqgaiq" path="res://Scenes/MainScenes/ui.gd" id="3_ibdpl"]
 [ext_resource type="Texture2D" uid="uid://br8nqqshxd8dt" path="res://Assets/Towers/towerDefense_tile251.png" id="4_g2kuy"]
 
 [node name="GameScene" type="Node2D" unique_id=1426536197]
+script = ExtResource("1_g2kuy")
 
 [node name="Map1" parent="." unique_id=1085433264 instance=ExtResource("1_akvmk")]
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=410678870]
+script = ExtResource("3_ibdpl")
 
 [node name="HUD" type="Control" parent="UI" unique_id=2003809236]
 layout_mode = 3
@@ -30,7 +34,7 @@ offset_right = 100.0
 grow_vertical = 0
 theme_override_constants/separation = 20
 
-[node name="Gun" type="TextureButton" parent="UI/HUD/BuildBar" unique_id=444581132]
+[node name="Gun" type="TextureButton" parent="UI/HUD/BuildBar" unique_id=444581132 groups=["build_buttons"]]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -53,7 +57,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_2u2le")
 
-[node name="Missile" type="TextureButton" parent="UI/HUD/BuildBar" unique_id=1750255613]
+[node name="Missile" type="TextureButton" parent="UI/HUD/BuildBar" unique_id=1750255613 groups=["build_buttons"]]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 size_flags_horizontal = 4
