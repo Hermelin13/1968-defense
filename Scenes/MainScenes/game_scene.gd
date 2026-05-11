@@ -35,7 +35,7 @@ func start_next_wave():
 	spawn_enemies(wave_data)
 
 func retrieve_wave_data():
-	var wave_data = [["enemy_tank", 0.7],["enemy_tank", 0.1]]
+	var wave_data = [["enemy_tank", 3.0],["enemy_tank", 0.1]]
 	current_wave += 1
 	enemies_in_wave = wave_data.size()
 	return wave_data
@@ -80,6 +80,8 @@ func verify_and_build():
 		# test for cash available
 		var new_tower = load("res://Scenes/Turrets/" + build_type + ".tscn").instantiate()
 		new_tower.position = build_location
+		new_tower.built = true
+		new_tower.type = build_type
 		map_node.get_node("Turrets").add_child(new_tower, true)
 		map_node.get_node("TowerExclusion").set_cell(build_tile, 5, Vector2i(0, 0))
 		#deduct cash

@@ -1,23 +1,34 @@
 [gd_scene format=3 uid="uid://bwevt7vbotp3c"]
 
-[ext_resource type="Script" uid="uid://cfw5drjguo78q" path="res://Scenes/Turrets/MissileT1.gd" id="1_7ukwv"]
-[ext_resource type="Texture2D" uid="uid://cyx6ancub3t7" path="res://Assets/Towers/towerDefense_tile180.png" id="1_hey2t"]
-[ext_resource type="Texture2D" uid="uid://b6yhowx8h2hew" path="res://Assets/Towers/towerDefense_tile228.png" id="2_7ukwv"]
-[ext_resource type="Texture2D" uid="uid://br8nqqshxd8dt" path="res://Assets/Towers/towerDefense_tile251.png" id="3_qaqgq"]
+[ext_resource type="Script" uid="uid://cfw5drjguo78q" path="res://Scenes/Turrets/MissileT1.gd" id="1_tq4ww"]
+[ext_resource type="Texture2D" uid="uid://cyx6ancub3t7" path="res://Assets/Towers/towerDefense_tile180.png" id="2_404hp"]
+[ext_resource type="Texture2D" uid="uid://b6yhowx8h2hew" path="res://Assets/Towers/towerDefense_tile228.png" id="3_kiesa"]
+[ext_resource type="Texture2D" uid="uid://br8nqqshxd8dt" path="res://Assets/Towers/towerDefense_tile251.png" id="4_o3cbb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gonpa"]
+radius = 175.0
 
 [node name="MissileT1" type="Node2D" unique_id=1665514718]
-script = ExtResource("1_7ukwv")
+script = ExtResource("1_tq4ww")
 
 [node name="Base" type="Sprite2D" parent="." unique_id=862757837]
-texture = ExtResource("1_hey2t")
+texture = ExtResource("2_404hp")
 
 [node name="Turret" type="Sprite2D" parent="." unique_id=680837034]
-texture = ExtResource("2_7ukwv")
+texture = ExtResource("3_kiesa")
 
 [node name="Missile1" type="Sprite2D" parent="Turret" unique_id=1147705373]
 position = Vector2(5, -10)
-texture = ExtResource("3_qaqgq")
+texture = ExtResource("4_o3cbb")
 
 [node name="Missile2" type="Sprite2D" parent="Turret" unique_id=1808474847]
 position = Vector2(5, 10)
-texture = ExtResource("3_qaqgq")
+texture = ExtResource("4_o3cbb")
+
+[node name="Range" type="Area2D" parent="Turret" unique_id=661369428]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Turret/Range" unique_id=1559191922]
+shape = SubResource("CircleShape2D_gonpa")
+
+[connection signal="body_entered" from="Turret/Range" to="." method="_on_range_body_entered"]
+[connection signal="body_exited" from="Turret/Range" to="." method="_on_range_body_exited"]
