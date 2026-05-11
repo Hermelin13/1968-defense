@@ -6,6 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://bl1d72ee4tpjw" path="res://Assets/Towers/towerDefense_tile249.png" id="3_2u2le"]
 [ext_resource type="Script" uid="uid://b4jjg2fcqgaiq" path="res://Scenes/MainScenes/ui.gd" id="3_ibdpl"]
 [ext_resource type="Texture2D" uid="uid://br8nqqshxd8dt" path="res://Assets/Towers/towerDefense_tile251.png" id="4_g2kuy"]
+[ext_resource type="Texture2D" uid="uid://dt0s66g2daumx" path="res://Assets/Icons/right.png" id="7_674w2"]
+[ext_resource type="Texture2D" uid="uid://dq14ninrlk02h" path="res://Assets/Icons/pause.png" id="8_a0jnf"]
+[ext_resource type="Texture2D" uid="uid://dr6k7i366ikx0" path="res://Assets/Icons/fastForward.png" id="9_clpeu"]
 
 [node name="GameScene" type="Node2D" unique_id=1426536197]
 script = ExtResource("1_g2kuy")
@@ -80,3 +83,39 @@ offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("4_g2kuy")
+
+[node name="GameControls" type="HBoxContainer" parent="UI/HUD" unique_id=1190698026]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -230.0
+offset_top = -120.0
+offset_right = -26.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="PausePlay" type="TextureButton" parent="UI/HUD/GameControls" unique_id=1323562296]
+process_mode = 3
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+toggle_mode = true
+texture_normal = ExtResource("7_674w2")
+texture_pressed = ExtResource("8_a0jnf")
+stretch_mode = 0
+
+[node name="SpeedUp" type="TextureButton" parent="UI/HUD/GameControls" unique_id=433738712]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("9_clpeu")
+stretch_mode = 0
+
+[connection signal="pressed" from="UI/HUD/GameControls/PausePlay" to="UI" method="_on_pause_play_pressed"]
+[connection signal="pressed" from="UI/HUD/GameControls/SpeedUp" to="UI" method="_on_speed_up_pressed"]
