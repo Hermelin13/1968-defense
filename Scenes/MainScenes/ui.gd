@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+@onready var hp_bar = get_node("HUD/InfoBar/HB/HPBar")
+
 func set_tower_preview(tower_type, mouse_position):
 	
 	var drag_tower = load("res://Scenes/Turrets/" + tower_type + ".tscn").instantiate()
@@ -26,6 +28,16 @@ func update_towerPreview(new_position, color):
 	if get_node("TowerPreview/DragTower").modulate != Color(color):
 		get_node("TowerPreview/DragTower").modulate = Color(color)
 		get_node("TowerPreview/Sprite2D").modulate = Color(color)
+
+func update_health_bar(base_health):
+	var hp_bar_tween = hp_bar.create_tween()
+	hp_bar_tween.tween_property(hp_bar, "value", base_health, 0.1)
+	if base_health >= 60:
+		hp_bar.tint_progress = Color("3cc510") # Green
+	elif base_health <= 60 and base_health >= 25:
+		hp_bar.tint_progress = Color("e1be32") # Orange
+	else:
+		hp_bar.tint_progress = Color("e11e1e") # Red
 
 ## Game Controls
 func _on_pause_play_pressed():

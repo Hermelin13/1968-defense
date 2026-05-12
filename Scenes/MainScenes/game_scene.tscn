@@ -9,6 +9,9 @@
 [ext_resource type="Texture2D" uid="uid://dt0s66g2daumx" path="res://Assets/Icons/right.png" id="7_674w2"]
 [ext_resource type="Texture2D" uid="uid://dq14ninrlk02h" path="res://Assets/Icons/pause.png" id="8_a0jnf"]
 [ext_resource type="Texture2D" uid="uid://dr6k7i366ikx0" path="res://Assets/Icons/fastForward.png" id="9_clpeu"]
+[ext_resource type="Theme" uid="uid://buxpjf7wct7mx" path="res://Resources/Fonts/CoolTheme.tres" id="10_clpeu"]
+[ext_resource type="Texture2D" uid="uid://binqwhf4wyw5h" path="res://Assets/Icons/home.png" id="11_m8rg1"]
+[ext_resource type="Texture2D" uid="uid://lonli8ccsqsp" path="res://Assets/UI/HPbar.jpg" id="12_0h1f8"]
 
 [node name="GameScene" type="Node2D" unique_id=1426536197]
 script = ExtResource("1_g2kuy")
@@ -116,6 +119,61 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 texture_normal = ExtResource("9_clpeu")
 stretch_mode = 0
+
+[node name="InfoBar" type="ColorRect" parent="UI/HUD" unique_id=909713783]
+self_modulate = Color(0, 0, 0, 0.5058824)
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="HB" type="HBoxContainer" parent="UI/HUD/InfoBar" unique_id=1591709117]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SymbolCash" type="Label" parent="UI/HUD/InfoBar/HB" unique_id=1873340177]
+custom_minimum_size = Vector2(120, 60)
+layout_mode = 2
+theme = ExtResource("10_clpeu")
+theme_override_font_sizes/font_size = 50
+text = "$"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Cash" type="Label" parent="UI/HUD/InfoBar/HB" unique_id=1702026538]
+custom_minimum_size = Vector2(140, 60)
+layout_mode = 2
+theme = ExtResource("10_clpeu")
+theme_override_font_sizes/font_size = 50
+text = "99999"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Icon" type="TextureRect" parent="UI/HUD/InfoBar/HB" unique_id=1580075174]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_horizontal = 10
+texture = ExtResource("11_m8rg1")
+
+[node name="HPBar" type="TextureProgressBar" parent="UI/HUD/InfoBar/HB" unique_id=133231326]
+custom_minimum_size = Vector2(400, 30)
+layout_mode = 2
+size_flags_vertical = 4
+value = 100.0
+nine_patch_stretch = true
+texture_under = ExtResource("12_0h1f8")
+texture_progress = ExtResource("12_0h1f8")
+tint_under = Color(0.33333334, 0.33333334, 0.33333334, 1)
+tint_progress = Color(0, 0.764052, 0, 1)
+
+[node name="Control" type="Control" parent="UI/HUD/InfoBar/HB" unique_id=1996926632]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
 
 [connection signal="pressed" from="UI/HUD/GameControls/PausePlay" to="UI" method="_on_pause_play_pressed"]
 [connection signal="pressed" from="UI/HUD/GameControls/SpeedUp" to="UI" method="_on_speed_up_pressed"]

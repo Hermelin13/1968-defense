@@ -1,7 +1,10 @@
 extends PathFollow2D
 
+signal base_damage(damage)
+
 var hp = 50
 var speed = 100
+var baseDamage = 21
 
 @onready var health_bar = get_node("HealthBar")
 @onready var impact_area = get_node("Impact")
@@ -13,6 +16,9 @@ func _ready():
 	health_bar.top_level = true
 
 func _physics_process(delta):
+	if progress_ratio == 1.0:
+		emit_signal("base_damage", baseDamage)
+		queue_free()
 	move(delta)
 
 func move(delta):
@@ -38,4 +44,6 @@ func impact():
 	impact_area.add_child(new_impact)
 
 func on_destroy():
+	get_node("CharacterBody2D").queue_free()
+	await get_tree().create_timer(0.2).timeout
 	self.queue_free()

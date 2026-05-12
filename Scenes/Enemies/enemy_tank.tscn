@@ -13,12 +13,12 @@ script = ExtResource("1_3f1rt")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1441852602]
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=1226709706]
-texture = ExtResource("2_vj0eg")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=393276301]
 position = Vector2(-2.5, 0)
 shape = SubResource("RectangleShape2D_yi7jv")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1226709706]
+texture = ExtResource("2_vj0eg")
 
 [node name="HealthBar" type="TextureProgressBar" parent="." unique_id=132041645]
 offset_left = -30.0

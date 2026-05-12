@@ -1,3 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://buxpjf7wct7mx"]
 
+[ext_resource type="FontFile" uid="uid://blt8bo0wtec3m" path="res://Resources/Fonts/Kenney Future Narrow.ttf" id="1_alads"]
+
 [resource]
+default_font = ExtResource("1_alads")
