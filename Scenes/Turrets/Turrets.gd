@@ -1,5 +1,6 @@
 extends Node2D
 
+var ammo
 var type
 var enemy_array = []
 var built = false
@@ -24,10 +25,20 @@ func turn():
 	
 func fire():
 	reloaded = false
+	if ammo == "Projectile":
+		fire_gun()
+	elif ammo == "Missile":
+		fire_missile()
 	enemy.on_hit(GameData.tower_data[type]["damage"])
 	await get_tree().create_timer(GameData.tower_data[type]["reload"]).timeout
 	reloaded = true
 
+func fire_gun():
+	get_node("AnimationPlayer").play("Fire")
+
+func fire_missile():
+	pass
+	
 func select_enemy():
 	var enemy_progress_array = []
 	for i in enemy_array:

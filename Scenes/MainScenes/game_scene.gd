@@ -47,7 +47,6 @@ func spawn_enemies(wave_data):
 		await get_tree().create_timer(i[1]).timeout
 		
 
-
 ## Building
 func initiate_build_mode(tower_type):
 	if build_mode:
@@ -82,6 +81,7 @@ func verify_and_build():
 		new_tower.position = build_location
 		new_tower.built = true
 		new_tower.type = build_type
+		new_tower.ammo = GameData.tower_data[build_type]["ammo"]
 		map_node.get_node("Turrets").add_child(new_tower, true)
 		map_node.get_node("TowerExclusion").set_cell(build_tile, 5, Vector2i(0, 0))
 		#deduct cash

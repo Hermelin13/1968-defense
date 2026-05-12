@@ -3,9 +3,49 @@
 [ext_resource type="Script" uid="uid://du22f7unyluxh" path="res://Scenes/Turrets/GunT1.gd" id="1_cewgw"]
 [ext_resource type="Texture2D" uid="uid://b3om21fevau0m" path="res://Assets/Towers/towerDefense_tile181.png" id="2_8cfg4"]
 [ext_resource type="Texture2D" uid="uid://bl1d72ee4tpjw" path="res://Assets/Towers/towerDefense_tile249.png" id="3_jpft6"]
+[ext_resource type="Texture2D" uid="uid://cjj7ffh30mr45" path="res://Assets/Effects/towerDefense_tile297.png" id="4_8cfg4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cewgw"]
 radius = 175.0
+
+[sub_resource type="Animation" id="Animation_8cfg4"]
+resource_name = "Fire"
+length = 0.15
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Turret/Cross/GunFlash:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_jpft6"]
+length = 0.05
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Turret/Cross/GunFlash:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i3mxt"]
+_data = {
+&"Fire": SubResource("Animation_8cfg4"),
+&"RESET": SubResource("Animation_jpft6")
+}
 
 [node name="GunT1" type="Node2D" unique_id=1948045617]
 script = ExtResource("1_cewgw")
@@ -20,10 +60,20 @@ offset = Vector2(12, 0)
 [node name="Cross" type="Marker2D" parent="Turret" unique_id=146373742]
 position = Vector2(43, 0)
 
+[node name="GunFlash" type="Sprite2D" parent="Turret/Cross" unique_id=1135679690]
+visible = false
+position = Vector2(10, 0)
+rotation = 1.5707964
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("4_8cfg4")
+
 [node name="Range" type="Area2D" parent="." unique_id=636747409]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Range" unique_id=590154191]
 shape = SubResource("CircleShape2D_cewgw")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=598320842]
+libraries/ = SubResource("AnimationLibrary_i3mxt")
 
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]
 [connection signal="body_exited" from="Range" to="." method="_on_range_body_exited"]
