@@ -15,9 +15,13 @@ var current_wave = 0
 var enemies_in_wave = 0
 
 var base_health = 100
+var cash = 100
+var enemy_reward = 20
 
 func _ready():
 	map_node = get_node("Map1")
+	get_node("UI").update_cash_label(cash)
+
 	for i in get_tree().get_nodes_in_group("build_buttons"):
 		i.pressed.connect(func(): initiate_build_mode(i.name))
 
@@ -62,10 +66,14 @@ func spawn_enemies(wave_data):
 		map_node.get_node("Path2D").add_child(new_enemy, true)
 		await get_tree().create_timer(i[1]).timeout
 
-func on_enemy_destroyed():
+func on_enemy_destroyed(give_reward = false):
 	if game_ended:
 		return
-
+	
+	if give_reward:
+		cash += enemy_reward
+		get_node("UI").update_cash_label(cash)
+		
 	enemies_in_wave -= 1
 
 	if enemies_in_wave <= 0:
@@ -87,9 +95,17 @@ func on_base_damage(damage):
 
 ## Building
 func initiate_build_mode(tower_type):
+	var selected_build_type = tower_type + "T1"
+	var tower_cost = GameData.tower_data[selected_build_type]["cost"]
+
+	if cash < tower_cost:
+		print("Not enough cash")
+		return
+
 	if build_mode:
-		cancel_build_mode() 
-	build_type = tower_type + "T1" 
+		cancel_build_mode()
+
+	build_type = selected_build_type
 	build_mode = true
 	get_node("UI").set_tower_preview(build_type, get_global_mouse_position())
 
@@ -124,6 +140,14 @@ func cancel_build_mode():
 		
 func verify_and_build():
 	if build_valid:
+		var tower_cost = GameData.tower_data[build_type]["cost"]
+
+		if cash < tower_cost:
+			print("Not enough cash")
+			return
+
+		cash -= tower_cost
+		get_node("UI").update_cash_label(cash)
 
 		var turrets_node = map_node.get_node("Turrets")
 		var tower_exclusion = map_node.get_node("TowerExclusion")
@@ -138,6 +162,4 @@ func verify_and_build():
 		turrets_node.add_child(new_tower, true)
 
 		tower_exclusion.set_cell(build_tile, 5, Vector2i(0, 0))
-		#deduct cash
-		#update cash label
 	

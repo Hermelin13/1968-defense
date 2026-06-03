@@ -39,6 +39,9 @@ func update_health_bar(base_health):
 	else:
 		hp_bar.tint_progress = Color("e11e1e") # Red
 
+func update_cash_label(current_cash):
+	get_node("HUD/InfoBar/HB/Cash").text = str(current_cash)
+
 ## Game Controls
 func _on_pause_play_pressed():
 	if get_parent().build_mode:
