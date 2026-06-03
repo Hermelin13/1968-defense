@@ -30,7 +30,7 @@ func fire():
 		fire_gun()
 	elif ammo == "Missile":
 		fire_missile()
-	enemy.on_hit(GameData.tower_data[type]["damage"])
+	enemy.on_hit(GameData.tower_data[type]["damage"], ammo)
 	await get_tree().create_timer(GameData.tower_data[type]["reload"]).timeout
 	reloaded = true
 

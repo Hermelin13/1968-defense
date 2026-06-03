@@ -3,13 +3,13 @@ extends Node
 var tower_data = {
 	"GunT1": {
 		"damage": 20,
-		"reload": 1,
-		"range": 350,
+		"reload": 1.5,
+		"range": 300,
 		"ammo": "Projectile"},
 	"GunT2": {
-		"damage": 20,
-		"reload": 1,
-		"range": 350,
+		"damage": 30,
+		"reload": 0.8,
+		"range": 400,
 		"ammo": "Projectile"},
 	"MissileT1": {
 		"damage": 100,

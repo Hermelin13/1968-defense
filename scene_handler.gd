@@ -59,6 +59,11 @@ func on_quit_pressed():
 
 
 func unload_game(result):
+	if current_game == null:
+		return
+
+	await get_tree().create_timer(2.0).timeout
+
 	if current_game:
 		current_game.queue_free()
 		current_game = null

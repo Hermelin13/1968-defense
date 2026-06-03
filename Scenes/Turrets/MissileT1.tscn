@@ -8,6 +8,45 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_gonpa"]
 radius = 175.0
 
+[sub_resource type="Animation" id="Animation_8cfg4"]
+resource_name = "Fire"
+length = 0.15
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Turret/Cross/GunFlash:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_jpft6"]
+length = 0.05
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Turret/Cross/GunFlash:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tq4ww"]
+_data = {
+&"Fire": SubResource("Animation_8cfg4"),
+&"RESET": SubResource("Animation_jpft6")
+}
+
 [node name="MissileT1" type="Node2D" unique_id=1665514718]
 script = ExtResource("1_tq4ww")
 
@@ -25,10 +64,14 @@ texture = ExtResource("4_o3cbb")
 position = Vector2(5, 10)
 texture = ExtResource("4_o3cbb")
 
-[node name="Range" type="Area2D" parent="Turret" unique_id=661369428]
+[node name="Range" type="Area2D" parent="." unique_id=661369428]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Turret/Range" unique_id=1559191922]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Range" unique_id=1559191922]
 shape = SubResource("CircleShape2D_gonpa")
 
-[connection signal="body_entered" from="Turret/Range" to="." method="_on_range_body_entered"]
-[connection signal="body_exited" from="Turret/Range" to="." method="_on_range_body_exited"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1472199890]
+root_node = NodePath("../Range")
+libraries/ = SubResource("AnimationLibrary_tq4ww")
+
+[connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]
+[connection signal="body_exited" from="Range" to="." method="_on_range_body_exited"]

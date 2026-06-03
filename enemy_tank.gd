@@ -17,7 +17,7 @@ func _ready():
 	health_bar.top_level = true
 
 func _physics_process(delta):
-	if progress_ratio == 1.0:
+	if progress_ratio >= 1.0:
 		emit_signal("base_damage", baseDamage)
 		enemy_destroyed.emit()
 		queue_free()
@@ -27,23 +27,32 @@ func move(delta):
 	progress += speed * delta
 	health_bar.set_position(position - Vector2(30,30))
 
-func on_hit(damage):
-	impact()
+func on_hit(damage, hit_type = "Projectile"):
+	impact(hit_type)
+
 	hp -= damage
 	health_bar.value = hp
-	if hp <= 0:
-		on_destroy()
-		enemy_destroyed.emit()
 
-func impact():
-	randomize()
-	var x_pos = randi() % 31
-	randomize()
-	var y_pos = randi() % 31
-	
+	if hp <= 0:
+		enemy_destroyed.emit()
+		on_destroy()
+
+
+func impact(hit_type):
+	var spread := 10
+	var impact_scale := Vector2(0.2, 0.2)
+
+	if hit_type == "Missile":
+		spread = 20
+		impact_scale = Vector2(1.2, 1.2)
+
+	var x_pos = randi_range(-spread, spread)
+	var y_pos = randi_range(-spread, spread)
+
 	var impact_location = Vector2(x_pos, y_pos)
 	var new_impact = projectile_impact.instantiate()
 	new_impact.position = impact_location
+	new_impact.scale = impact_scale
 	impact_area.add_child(new_impact)
 
 func on_destroy():
