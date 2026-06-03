@@ -1,0 +1,172 @@
+[gd_scene format=3 uid="uid://b26yopg40phtm"]
+
+[ext_resource type="Texture2D" uid="uid://padpl4h5ka60" path="res://Assets/UI/Art/BackGround.png" id="1_1nfs4"]
+[ext_resource type="Theme" uid="uid://buxpjf7wct7mx" path="res://Resources/Fonts/CoolTheme.tres" id="2_7ym62"]
+[ext_resource type="FontFile" uid="uid://blt8bo0wtec3m" path="res://Resources/Fonts/Kenney Future Narrow.ttf" id="3_pgrwe"]
+[ext_resource type="Texture2D" uid="uid://bces8vv0kw3s6" path="res://Assets/UI/Buttons/button_rectangle_gradient.png" id="4_7ahcr"]
+[ext_resource type="Texture2D" uid="uid://c53edbwupe2bu" path="res://Assets/UI/Buttons/button_rectangle_flat.png" id="5_0qtio"]
+
+[node name="GameOver" type="Control" unique_id=1595141667]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BG" type="TextureRect" parent="." unique_id=684670351]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_1nfs4")
+expand_mode = 3
+
+[node name="Label" type="Label" parent="BG" unique_id=981539253]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_7ym62")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6745098)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("3_pgrwe")
+theme_override_font_sizes/font_size = 40
+text = "Game Over"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MC" type="MarginContainer" parent="." unique_id=984450423]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="VBC" type="VBoxContainer" parent="MC" unique_id=3643906]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="NewGame" type="TextureButton" parent="MC/VBC" unique_id=687462846]
+custom_minimum_size = Vector2(350, 75)
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("4_7ahcr")
+texture_pressed = ExtResource("5_0qtio")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="MC/VBC/NewGame" unique_id=1094767176]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_7ym62")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6745098)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("3_pgrwe")
+theme_override_font_sizes/font_size = 40
+text = "New Game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Settings" type="TextureButton" parent="MC/VBC" unique_id=872046777]
+custom_minimum_size = Vector2(350, 75)
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("4_7ahcr")
+texture_pressed = ExtResource("5_0qtio")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="MC/VBC/Settings" unique_id=1519934042]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_7ym62")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6745098)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("3_pgrwe")
+theme_override_font_sizes/font_size = 40
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="About" type="TextureButton" parent="MC/VBC" unique_id=296532796]
+custom_minimum_size = Vector2(350, 75)
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("4_7ahcr")
+texture_pressed = ExtResource("5_0qtio")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="MC/VBC/About" unique_id=2095358894]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_7ym62")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6745098)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("3_pgrwe")
+theme_override_font_sizes/font_size = 40
+text = "About"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Quit" type="TextureButton" parent="MC/VBC" unique_id=230716022]
+custom_minimum_size = Vector2(350, 75)
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("4_7ahcr")
+texture_pressed = ExtResource("5_0qtio")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="MC/VBC/Quit" unique_id=25890712]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_7ym62")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6745098)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("3_pgrwe")
+theme_override_font_sizes/font_size = 40
+text = "Quit"
+horizontal_alignment = 1
+vertical_alignment = 1

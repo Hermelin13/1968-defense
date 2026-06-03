@@ -1,6 +1,7 @@
 extends PathFollow2D
 
 signal base_damage(damage)
+signal enemy_destroyed
 
 var hp = 50
 var speed = 100
@@ -18,6 +19,7 @@ func _ready():
 func _physics_process(delta):
 	if progress_ratio == 1.0:
 		emit_signal("base_damage", baseDamage)
+		enemy_destroyed.emit()
 		queue_free()
 	move(delta)
 
@@ -31,6 +33,7 @@ func on_hit(damage):
 	health_bar.value = hp
 	if hp <= 0:
 		on_destroy()
+		enemy_destroyed.emit()
 
 func impact():
 	randomize()

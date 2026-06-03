@@ -3,6 +3,7 @@ extends Node2D
 signal game_finished(result)
 
 var map_node
+var game_ended = false
 
 var build_mode = false
 var build_valid = false
@@ -20,9 +21,18 @@ func _ready():
 	for i in get_tree().get_nodes_in_group("build_buttons"):
 		i.pressed.connect(func(): initiate_build_mode(i.name))
 
-func  _process(delta):
+func _process(delta):
 	if build_mode:
 		update_towerPreview()
+
+func _input(event):
+	if event.is_action_released("ui_cancel") and build_mode:
+		cancel_build_mode()
+
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed and build_mode:
+			verify_and_build()
+			cancel_build_mode()
 
 func _unhandled_input(event):
 	if event.is_action_released("ui_cancel") and build_mode:
@@ -48,13 +58,30 @@ func spawn_enemies(wave_data):
 	for i in wave_data:
 		var new_enemy = load("res://Scenes/Enemies/" + i[0] + ".tscn").instantiate()
 		new_enemy.base_damage.connect(on_base_damage)
+		new_enemy.enemy_destroyed.connect(on_enemy_destroyed)
 		map_node.get_node("Path2D").add_child(new_enemy, true)
 		await get_tree().create_timer(i[1]).timeout
 
+func on_enemy_destroyed():
+	if game_ended:
+		return
+
+	enemies_in_wave -= 1
+
+	if enemies_in_wave <= 0:
+		game_ended = true
+		game_finished.emit(true)
+
+
 func on_base_damage(damage):
+	if game_ended:
+		return
+
 	base_health -= damage
+
 	if base_health <= 0:
-		emit_signal("game_finished", false)
+		game_ended = true
+		game_finished.emit(false)
 	else:
 		get_node("UI").update_health_bar(base_health)
 
@@ -67,34 +94,50 @@ func initiate_build_mode(tower_type):
 	get_node("UI").set_tower_preview(build_type, get_global_mouse_position())
 
 func update_towerPreview():
-	var mouse_position = get_global_mouse_position()
-	var current_tile = map_node.get_node("TowerExclusion").local_to_map(mouse_position)
-	var tile_position = map_node.get_node("TowerExclusion").map_to_local(current_tile)
-	
-	if map_node.get_node("TowerExclusion").get_cell_source_id(current_tile) == -1:
-		get_node("UI").update_towerPreview(tile_position, "adff459a")
+	var tower_exclusion = map_node.get_node("TowerExclusion")
+
+	var mouse_global_position = get_global_mouse_position()
+	var mouse_local_position = tower_exclusion.to_local(mouse_global_position)
+
+	var current_tile = tower_exclusion.local_to_map(mouse_local_position)
+	var tile_local_position = tower_exclusion.map_to_local(current_tile)
+	var tile_global_position = tower_exclusion.to_global(tile_local_position)
+
+	if tower_exclusion.get_cell_source_id(current_tile) == -1:
+		get_node("UI").update_towerPreview(tile_global_position, "adff459a")
 		build_valid = true
-		build_location = tile_position
+		build_location = tile_global_position
 		build_tile = current_tile
 	else:
-		get_node("UI").update_towerPreview(tile_position, "ff00009a")
+		get_node("UI").update_towerPreview(tile_global_position, "ff00009a")
 		build_valid = false
 
 func cancel_build_mode():
 	build_mode = false
 	build_valid = false
-	get_node("UI/TowerPreview").free()
 
+	var preview = get_node_or_null("UI/TowerPreview")
+	if preview:
+		preview.queue_free()
+
+
+		
 func verify_and_build():
 	if build_valid:
-		# test for cash available
+
+		var turrets_node = map_node.get_node("Turrets")
+		var tower_exclusion = map_node.get_node("TowerExclusion")
+
 		var new_tower = load("res://Scenes/Turrets/" + build_type + ".tscn").instantiate()
-		new_tower.position = build_location
+
+		new_tower.position = turrets_node.to_local(build_location)
 		new_tower.built = true
 		new_tower.type = build_type
 		new_tower.ammo = GameData.tower_data[build_type]["ammo"]
-		map_node.get_node("Turrets").add_child(new_tower, true)
-		map_node.get_node("TowerExclusion").set_cell(build_tile, 5, Vector2i(0, 0))
+
+		turrets_node.add_child(new_tower, true)
+
+		tower_exclusion.set_cell(build_tile, 5, Vector2i(0, 0))
 		#deduct cash
 		#update cash label
 	
