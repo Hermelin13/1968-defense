@@ -10,6 +10,10 @@ var built = false
 var enemy
 var reloaded = true
 
+var missile_1_ready = true
+var missile_2_ready = true
+var next_missile = 1
+
 func _ready():
 	if built:
 		apply_tower_stats()
@@ -17,10 +21,16 @@ func _ready():
 func _physics_process(_delta):
 	if enemy_array.size() != 0 and built:
 		select_enemy()
-		if not get_node("AnimationPlayer").is_playing():
-			turn()
-		if reloaded:
-			fire()
+		turn()
+
+		if ammo == "Missile":
+			if reloaded and has_ready_missile():
+				fire()
+		else:
+			if not get_node("AnimationPlayer").is_playing():
+				turn()
+			if reloaded:
+				fire()
 	else:
 		enemy = null
 
@@ -43,19 +53,102 @@ func turn():
 	
 func fire():
 	reloaded = false
+
 	if ammo == "Projectile":
 		fire_gun()
+
+		if enemy:
+			enemy.on_hit(GameData.tower_data[type]["damage"], ammo)
+
+		await get_tree().create_timer(GameData.tower_data[type]["reload"]).timeout
+		reloaded = true
+
 	elif ammo == "Missile":
 		fire_missile()
-	enemy.on_hit(GameData.tower_data[type]["damage"], ammo)
-	await get_tree().create_timer(GameData.tower_data[type]["reload"]).timeout
-	reloaded = true
 
+		await get_tree().create_timer(GameData.tower_data[type]["reload"]).timeout
+		reloaded = true
+		
+		
 func fire_gun():
 	get_node("AnimationPlayer").play("Fire")
 
+func has_ready_missile():
+	var missile_count = GameData.tower_data[type]["missile_count"]
+
+	if missile_count >= 1 and missile_1_ready:
+		return true
+
+	if missile_count >= 2 and missile_2_ready:
+		return true
+
+	return false
+
 func fire_missile():
-	pass
+	var missile_count = GameData.tower_data[type]["missile_count"]
+
+	if missile_count == 1:
+		shoot_missile_1()
+		return
+
+	if next_missile == 1 and missile_1_ready:
+		shoot_missile_1()
+		next_missile = 2
+		return
+
+	if next_missile == 2 and missile_2_ready:
+		shoot_missile_2()
+		next_missile = 1
+		return
+
+	if missile_count == 2:
+		if next_missile == 1 and missile_1_ready:
+			shoot_missile_1()
+			next_missile = 2
+			return
+
+		if next_missile == 2 and missile_2_ready:
+			shoot_missile_2()
+			next_missile = 1
+			return
+
+func shoot_missile_1():
+	missile_1_ready = false
+
+	var missile_node = get_node_or_null("Turret/Missile1")
+	if missile_node:
+		missile_node.visible = false
+
+	get_node("AnimationPlayer").play("FireMissile1")
+
+	if enemy:
+		enemy.on_hit(GameData.tower_data[type]["damage"], ammo)
+
+	await get_tree().create_timer(3.5).timeout
+
+	if missile_node:
+		missile_node.visible = true
+
+	missile_1_ready = true
+
+func shoot_missile_2():
+	missile_2_ready = false
+
+	var missile_node = get_node_or_null("Turret/Missile2")
+	if missile_node:
+		missile_node.visible = false
+
+	get_node("AnimationPlayer").play("FireMissile2")
+
+	if enemy:
+		enemy.on_hit(GameData.tower_data[type]["damage"], ammo)
+
+	await get_tree().create_timer(3.5).timeout
+
+	if missile_node:
+		missile_node.visible = true
+
+	missile_2_ready = true
 	
 func select_enemy():
 	var enemy_progress_array = []

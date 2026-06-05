@@ -15,7 +15,7 @@ var current_wave = 0
 var enemies_in_wave = 0
 
 var base_health = 100
-var cash = 100
+var cash = 1000
 var enemy_reward = 20
 
 var selected_turret = null
@@ -195,13 +195,14 @@ func upgrade_selected_turret():
 		print("No selected turret")
 		return
 
-	var next_type = GameData.tower_data[selected_turret.type]["upgrade"]
+	var old_type = selected_turret.type
+	var next_type = GameData.tower_data[old_type]["upgrade"]
 
 	if next_type == "":
 		print("Max level")
 		return
 
-	var upgrade_cost = GameData.tower_data[selected_turret.type]["cost"]
+	var upgrade_cost = GameData.tower_data[old_type]["upgrade_cost"]
 
 	if cash < upgrade_cost:
 		print("Not enough cash")
@@ -210,7 +211,22 @@ func upgrade_selected_turret():
 	cash -= upgrade_cost
 	get_node("UI").update_cash_label(cash)
 
-	selected_turret.upgrade()
+	var turrets_node = map_node.get_node("Turrets")
+
+	var old_position = selected_turret.position
+	var old_global_position = selected_turret.global_position
+
+	selected_turret.queue_free()
+
+	var new_turret = load("res://Scenes/Turrets/" + next_type + ".tscn").instantiate()
+	new_turret.position = old_position
+	new_turret.built = true
+	new_turret.type = next_type
+	new_turret.ammo = GameData.tower_data[next_type]["ammo"]
+
+	turrets_node.add_child(new_turret, true)
+
+	selected_turret = new_turret
 	get_node("UI").show_turret_options(selected_turret)
 
 	print("Turret upgraded to: ", selected_turret.type)

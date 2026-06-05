@@ -1,26 +1,43 @@
-[gd_scene format=3 uid="uid://bwevt7vbotp3c"]
+[gd_scene format=3 uid="uid://1q3ne824fgg4"]
 
-[ext_resource type="Script" uid="uid://cfw5drjguo78q" path="res://Scenes/Turrets/MissileT1.gd" id="1_tq4ww"]
-[ext_resource type="Texture2D" uid="uid://cyx6ancub3t7" path="res://Assets/Towers/towerDefense_tile180.png" id="2_404hp"]
-[ext_resource type="Texture2D" uid="uid://b6yhowx8h2hew" path="res://Assets/Towers/towerDefense_tile228.png" id="3_kiesa"]
-[ext_resource type="Texture2D" uid="uid://br8nqqshxd8dt" path="res://Assets/Towers/towerDefense_tile251.png" id="4_o3cbb"]
+[ext_resource type="Script" uid="uid://cfw5drjguo78q" path="res://Scenes/Turrets/MissileT1.gd" id="1_b0pvu"]
+[ext_resource type="Texture2D" uid="uid://cyx6ancub3t7" path="res://Assets/Towers/towerDefense_tile180.png" id="2_dnq4p"]
+[ext_resource type="Texture2D" uid="uid://b6yhowx8h2hew" path="res://Assets/Towers/towerDefense_tile228.png" id="3_3e2p0"]
+[ext_resource type="Texture2D" uid="uid://br8nqqshxd8dt" path="res://Assets/Towers/towerDefense_tile251.png" id="4_07lwi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gonpa"]
 radius = 175.0
 
 [sub_resource type="Animation" id="Animation_8cfg4"]
 resource_name = "Fire"
-length = 3.5
+length = 6.0
 step = 0.05
 
-[sub_resource type="Animation" id="Animation_tq4ww"]
+[sub_resource type="Animation" id="Animation_b0pvu"]
 resource_name = "FireMissile1"
 length = 3.5
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../Turret/Missile:visible")
+tracks/0/path = NodePath("../Turret/Missile1:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.05, 3.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_dnq4p"]
+resource_name = "FireMissile2"
+length = 3.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Turret/Missile2:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -36,10 +53,22 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../Turret/Missile:visible")
+tracks/0/path = NodePath("../Turret/Missile2:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Turret/Missile1:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -49,25 +78,30 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tq4ww"]
 _data = {
 &"Fire": SubResource("Animation_8cfg4"),
-&"FireMissile1": SubResource("Animation_tq4ww"),
+&"FireMissile1": SubResource("Animation_b0pvu"),
+&"FireMissile2": SubResource("Animation_dnq4p"),
 &"RESET": SubResource("Animation_jpft6")
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tq4ww"]
 radius = 32.0
 
-[node name="MissileT1" type="Node2D" unique_id=1665514718]
-script = ExtResource("1_tq4ww")
+[node name="MissileT2" type="Node2D" unique_id=1665514718]
+script = ExtResource("1_b0pvu")
 
 [node name="Base" type="Sprite2D" parent="." unique_id=862757837]
-texture = ExtResource("2_404hp")
+texture = ExtResource("2_dnq4p")
 
 [node name="Turret" type="Sprite2D" parent="." unique_id=680837034]
-texture = ExtResource("3_kiesa")
+texture = ExtResource("3_3e2p0")
 
-[node name="Missile" type="Sprite2D" parent="Turret" unique_id=1147705373]
-position = Vector2(5, 0)
-texture = ExtResource("4_o3cbb")
+[node name="Missile1" type="Sprite2D" parent="Turret" unique_id=1147705373]
+position = Vector2(5, -10)
+texture = ExtResource("4_07lwi")
+
+[node name="Missile2" type="Sprite2D" parent="Turret" unique_id=1808474847]
+position = Vector2(5, 10)
+texture = ExtResource("4_07lwi")
 
 [node name="Range" type="Area2D" parent="." unique_id=661369428]
 

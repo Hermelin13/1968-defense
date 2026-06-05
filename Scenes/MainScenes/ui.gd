@@ -92,7 +92,7 @@ func show_turret_options(turret):
 		upgrade_button.disabled = true
 		upgrade_button.text = "Max Level"
 	else:
-		var cost = GameData.tower_data[turret.type]["cost"]
+		var cost = GameData.tower_data[turret.type]["upgrade_cost"]
 		upgrade_button.disabled = false
 		upgrade_button.text = "Upgrade $" + str(cost)
 		

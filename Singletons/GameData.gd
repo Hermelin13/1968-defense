@@ -7,6 +7,7 @@ var tower_data = {
 		"range": 300,
 		"ammo": "Projectile",
 		"cost": 50,
+		"upgrade_cost": 100,
 		"upgrade": "GunT2"},
 	"GunT2": {
 		"damage": 30,
@@ -16,17 +17,20 @@ var tower_data = {
 		"cost": 100,
 		"upgrade": "",},
 	"MissileT1": {
-		"damage": 80,
-		"reload": 3,
+		"damage": 100,
+		"reload": 4,
 		"range": 500,
 		"ammo": "Missile",
 		"cost": 150,
-		"upgrade": "MissileT2",},
+		"upgrade_cost": 200,
+		"upgrade": "MissileT2",
+		"missile_count": 1,},
 	"MissileT2": {
-		"damage": 200,
-		"reload": 3.5,
+		"damage": 100,
+		"reload": 2,
 		"range": 600,
 		"ammo": "Missile",
 		"cost": 300,
-		"upgrade": "",}
+		"upgrade": "",
+		"missile_count": 2,}
 	}
