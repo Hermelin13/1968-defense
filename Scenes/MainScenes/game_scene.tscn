@@ -175,5 +175,14 @@ tint_progress = Color(0, 0.764052, 0, 1)
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 
+[node name="TurretOptions" type="VBoxContainer" parent="UI/HUD" unique_id=918101457]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 0
+
+[node name="Upgrade" type="Button" parent="UI/HUD/TurretOptions" unique_id=1263911691]
+layout_mode = 2
+
 [connection signal="pressed" from="UI/HUD/GameControls/PausePlay" to="UI" method="_on_pause_play_pressed"]
 [connection signal="pressed" from="UI/HUD/GameControls/SpeedUp" to="UI" method="_on_speed_up_pressed"]

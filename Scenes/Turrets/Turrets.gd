@@ -1,4 +1,7 @@
+class_name Turrets
 extends Node2D
+
+signal turret_selected(turret)
 
 var ammo
 var type
@@ -9,7 +12,7 @@ var reloaded = true
 
 func _ready():
 	if built:
-		self.get_node("Range/CollisionShape2D").get_shape().radius = 0.5 * GameData.tower_data[type]["range"]
+		apply_tower_stats()
 
 func _physics_process(_delta):
 	if enemy_array.size() != 0 and built:
@@ -20,7 +23,21 @@ func _physics_process(_delta):
 			fire()
 	else:
 		enemy = null
-	
+
+func apply_tower_stats():
+	ammo = GameData.tower_data[type]["ammo"]
+	get_node("Range/CollisionShape2D").shape.radius = 0.5 * GameData.tower_data[type]["range"]
+
+func upgrade():
+	var next_type = GameData.tower_data[type]["upgrade"]
+
+	if next_type == "":
+		return false
+
+	type = next_type
+	apply_tower_stats()
+	return true
+
 func turn():
 	get_node("Turret").look_at(enemy.position)
 	
@@ -54,3 +71,10 @@ func _on_range_body_entered(body):
 
 func _on_range_body_exited(body):
 	enemy_array.erase(body.get_parent())
+	
+func _on_click_area_input_event(viewport, event, shape_idx):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			print("Turret clicked")
+			if built:
+				turret_selected.emit(self)

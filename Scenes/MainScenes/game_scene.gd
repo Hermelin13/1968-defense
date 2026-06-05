@@ -18,6 +18,8 @@ var base_health = 100
 var cash = 100
 var enemy_reward = 20
 
+var selected_turret = null
+
 func _ready():
 	map_node = get_node("Map1")
 	get_node("UI").update_cash_label(cash)
@@ -29,23 +31,43 @@ func _process(delta):
 	if build_mode:
 		update_towerPreview()
 
+func select_turret_at_mouse():
+	var mouse_pos = get_global_mouse_position()
+	var turrets_node = map_node.get_node("Turrets")
+
+	for turret in turrets_node.get_children():
+		if turret.global_position.distance_to(mouse_pos) < 40:
+			print("Selected turret: ", turret.name)
+			selected_turret = turret
+			get_node("UI").show_turret_options(turret)
+			return
+
+	print("No turret selected")
+	get_node("UI").hide_turret_options()
+	selected_turret = null
+
 func _input(event):
 	if event.is_action_released("ui_cancel") and build_mode:
 		cancel_build_mode()
+		return
 
 	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed and build_mode:
-			verify_and_build()
-			cancel_build_mode()
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 
-func _unhandled_input(event):
-	if event.is_action_released("ui_cancel") and build_mode:
-		cancel_build_mode()
+			# Building has priority
+			if build_mode:
+				print("Trying to build")
+				print("build_valid: ", build_valid)
 
-	if event.is_action_released("ui_accept") and build_mode:
-		verify_and_build()
-		cancel_build_mode()
+				verify_and_build()
+				cancel_build_mode()
+				return
 
+			# Do not deselect turret when clicking upgrade UI
+			if get_node("UI").is_mouse_over_turret_options():
+				return
+
+			select_turret_at_mouse()
 ## Waves
 func start_next_wave():
 	var wave_data = retrieve_wave_data()
@@ -105,8 +127,12 @@ func initiate_build_mode(tower_type):
 	if build_mode:
 		cancel_build_mode()
 
+	selected_turret = null
+	get_node("UI").hide_turret_options()
+
 	build_type = selected_build_type
 	build_mode = true
+
 	get_node("UI").set_tower_preview(build_type, get_global_mouse_position())
 
 func update_towerPreview():
@@ -136,30 +162,55 @@ func cancel_build_mode():
 	if preview:
 		preview.queue_free()
 
-
-		
 func verify_and_build():
-	if build_valid:
-		var tower_cost = GameData.tower_data[build_type]["cost"]
+	if not build_valid:
+		print("Cannot build here")
+		return
 
-		if cash < tower_cost:
-			print("Not enough cash")
-			return
+	var tower_cost = GameData.tower_data[build_type]["cost"]
 
-		cash -= tower_cost
-		get_node("UI").update_cash_label(cash)
+	if cash < tower_cost:
+		print("Not enough cash")
+		return
 
-		var turrets_node = map_node.get_node("Turrets")
-		var tower_exclusion = map_node.get_node("TowerExclusion")
+	cash -= tower_cost
+	get_node("UI").update_cash_label(cash)
 
-		var new_tower = load("res://Scenes/Turrets/" + build_type + ".tscn").instantiate()
+	var turrets_node = map_node.get_node("Turrets")
+	var tower_exclusion = map_node.get_node("TowerExclusion")
 
-		new_tower.position = turrets_node.to_local(build_location)
-		new_tower.built = true
-		new_tower.type = build_type
-		new_tower.ammo = GameData.tower_data[build_type]["ammo"]
+	var new_tower = load("res://Scenes/Turrets/" + build_type + ".tscn").instantiate()
 
-		turrets_node.add_child(new_tower, true)
+	new_tower.position = turrets_node.to_local(build_location)
+	new_tower.built = true
+	new_tower.type = build_type
+	new_tower.ammo = GameData.tower_data[build_type]["ammo"]
 
-		tower_exclusion.set_cell(build_tile, 5, Vector2i(0, 0))
+	turrets_node.add_child(new_tower, true)
+
+	tower_exclusion.set_cell(build_tile, 5, Vector2i(0, 0))
 	
+func upgrade_selected_turret():
+	if selected_turret == null:
+		print("No selected turret")
+		return
+
+	var next_type = GameData.tower_data[selected_turret.type]["upgrade"]
+
+	if next_type == "":
+		print("Max level")
+		return
+
+	var upgrade_cost = GameData.tower_data[selected_turret.type]["cost"]
+
+	if cash < upgrade_cost:
+		print("Not enough cash")
+		return
+
+	cash -= upgrade_cost
+	get_node("UI").update_cash_label(cash)
+
+	selected_turret.upgrade()
+	get_node("UI").show_turret_options(selected_turret)
+
+	print("Turret upgraded to: ", selected_turret.type)

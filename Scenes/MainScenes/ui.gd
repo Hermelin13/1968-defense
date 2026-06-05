@@ -1,6 +1,18 @@
 extends CanvasLayer
 
 @onready var hp_bar = get_node("HUD/InfoBar/HB/HPBar")
+@onready var turret_options = get_node("HUD/TurretOptions")
+@onready var upgrade_button = get_node("HUD/TurretOptions/Upgrade")
+
+
+func _ready():
+	turret_options.visible = false
+
+	turret_options.mouse_filter = Control.MOUSE_FILTER_STOP
+	upgrade_button.mouse_filter = Control.MOUSE_FILTER_STOP
+
+	if not upgrade_button.pressed.is_connected(_on_upgrade_pressed):
+		upgrade_button.pressed.connect(_on_upgrade_pressed)
 
 func set_tower_preview(tower_type, mouse_position):
 	
@@ -16,6 +28,7 @@ func set_tower_preview(tower_type, mouse_position):
 	range_texture.modulate = Color("#adff459a")
 	
 	var control = Control.new()
+	control.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	control.add_child(drag_tower, true)
 	control.add_child(range_texture, true)
 	control.position = mouse_position
@@ -43,6 +56,10 @@ func update_cash_label(current_cash):
 	get_node("HUD/InfoBar/HB/Cash").text = str(current_cash)
 
 ## Game Controls
+func _on_upgrade_pressed():
+	print("Upgrade button pressed")
+	get_parent().upgrade_selected_turret()
+
 func _on_pause_play_pressed():
 	if get_parent().build_mode:
 		get_parent().cancel_build_mode()
@@ -61,3 +78,32 @@ func _on_speed_up_pressed() -> void:
 		Engine.set_time_scale(1.0)
 	else:
 		Engine.set_time_scale(2.0)
+		
+## Turret upgrade
+func show_turret_options(turret):
+	print("Showing upgrade menu")
+
+	turret_options.visible = true
+	turret_options.global_position = turret.global_position + Vector2(30, -40)
+
+	var next_type = GameData.tower_data[turret.type]["upgrade"]
+
+	if next_type == "":
+		upgrade_button.disabled = true
+		upgrade_button.text = "Max Level"
+	else:
+		var cost = GameData.tower_data[turret.type]["cost"]
+		upgrade_button.disabled = false
+		upgrade_button.text = "Upgrade $" + str(cost)
+		
+func hide_turret_options():
+	turret_options.visible = false
+
+func is_mouse_over_turret_options():
+	if not turret_options.visible:
+		return false
+
+	var mouse_pos = get_viewport().get_mouse_position()
+	var rect = Rect2(turret_options.global_position, turret_options.size)
+
+	return rect.has_point(mouse_pos)

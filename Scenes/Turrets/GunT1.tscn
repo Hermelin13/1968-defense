@@ -47,6 +47,9 @@ _data = {
 &"RESET": SubResource("Animation_jpft6")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_8cfg4"]
+radius = 29.15476
+
 [node name="GunT1" type="Node2D" unique_id=1948045617]
 script = ExtResource("1_cewgw")
 
@@ -75,5 +78,11 @@ shape = SubResource("CircleShape2D_cewgw")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=598320842]
 libraries/ = SubResource("AnimationLibrary_i3mxt")
 
+[node name="ClickArea" type="Area2D" parent="." unique_id=891076896]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea" unique_id=1269319161]
+shape = SubResource("CircleShape2D_8cfg4")
+
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]
 [connection signal="body_exited" from="Range" to="." method="_on_range_body_exited"]
+[connection signal="input_event" from="ClickArea" to="." method="_on_click_area_input_event"]
